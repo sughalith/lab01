@@ -7,7 +7,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class undeadTests {
     @Test
-    public void testFindMaxInArray() {
+    public void isZombie() {
         Undead zombie = new Undead();
         assertNotNull(zombie);
     }
