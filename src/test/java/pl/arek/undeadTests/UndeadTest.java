@@ -5,7 +5,7 @@ import pl.arek.Undead;
 
 import static org.junit.Assert.assertNotNull;
 
-public class undeadTests {
+public class UndeadTest {
     @Test
     public void isZombie() {
         Undead zombie = new Undead();
