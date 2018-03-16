@@ -1,14 +1,14 @@
 package pl.arek.domain;
 
 public class Undead {
-    private Long id;
+    private int id;
     private String type;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

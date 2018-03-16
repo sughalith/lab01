@@ -7,9 +7,9 @@ import java.util.List;
 public interface UndeadRepository {
     public List<Undead> getAll();
     public void initDatabase();
-    public Undead getById(Long id);
+    public Undead getById(int id);
     public void addUndead(Undead undead);
     public void deleteUndead(Undead undead);
-    public void updateUndead(long oldId, Undead newUndead);
+    public void updateUndead(int oldId, Undead newUndead);
 
 }

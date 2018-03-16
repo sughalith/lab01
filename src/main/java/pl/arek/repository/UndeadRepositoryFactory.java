@@ -1,7 +1,5 @@
 package pl.arek.repository;
 
-import pl.arek.service.UndeadManagerImpl;
-
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
