@@ -14,6 +14,9 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     private Connection connection;
     private PreparedStatement addUndeadStmt;
     private PreparedStatement getAllStmt;
+    private PreparedStatement getByIdStmt;
+    private PreparedStatement deleteTableStmt;
+    private PreparedStatement updateStmt;
 
 
     public UndeadRepositoryImpl(Connection connection) throws SQLException{
@@ -72,16 +75,30 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     }
 
     @Override
-    public Undead getById(int id) {
-        return null;
+    public Undead getById(int id) throws SQLException{
+        getByIdStmt.setInt(1, id);
+        ResultSet rs = getByIdStmt.executeQuery();
+        if(rs.next()) {
+            Undead undead = new Undead();
+            undead.setId(rs.getInt("id"));
+            undead.setType(rs.getString("name"));
+            return undead;
+        }
+        else{
+            return null;
+        }
+
+
+//
+//        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Undead WHERE id = ?");
+//        ResultSet rs = preparedStatement.executeQuery();
+//        return new Undead(rs.getInt("id"), rs.getString("name"));
     }
 
     @Override
     public void addUndead(Undead undead) {
-        //int count = 0;
         try{
             addUndeadStmt.setString(1, undead.getType());
-            //count = addUndeadStmt.executeUpdate();
             addUndeadStmt.executeUpdate();
         }
         catch (SQLException e){
@@ -95,8 +112,16 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     }
 
     @Override
-    public void updateUndead(int oldId, Undead newUndead) {
+    public void updateUndead(int oldId, Undead newUndead) throws SQLException{
 
+        updateStmt.setInt(2, oldId);
+        updateStmt.setString(1, newUndead.getType());
+        updateStmt.executeUpdate();
+
+    }
+    @Override
+    public void dropDatatable() throws SQLException{
+        deleteTableStmt.executeUpdate();
     }
 
     public Connection getConnection() {
@@ -110,5 +135,8 @@ public class UndeadRepositoryImpl implements UndeadRepository{
         this.connection = connection;
         addUndeadStmt = connection.prepareStatement("INSERT INTO Undead (name) VALUES (?)");
         getAllStmt = connection.prepareStatement("SELECT * FROM Undead");
+        getByIdStmt = connection.prepareStatement("SELECT * FROM Undead WHERE id = ?");
+        deleteTableStmt = connection.prepareStatement("DELETE FROM Undead");
+        updateStmt = connection.prepareStatement("UPDATE Undead SET name = ? WHERE id = ?");
     }
 }

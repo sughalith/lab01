@@ -1,11 +1,14 @@
 package pl.arek.undeadTests.domain;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import pl.arek.domain.Undead;
 import pl.arek.repository.UndeadRepository;
 import pl.arek.repository.UndeadRepositoryFactory;
+
+import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
@@ -20,25 +23,24 @@ public class UndeadTest {
         assertNotNull(zombie);
     }
 
-    @Ignore
     @Test
-    public void getById() {
-        int idToFind = 1;
+    public void getById() throws SQLException{
+        int idToFind = 170;
         assertNotNull(undeadRepository.getById(idToFind));
     }
 
     @Test
-    public void addUndead() {
+    public void addUndead() throws SQLException{
         Undead zombie = new Undead();
         zombie.setType("Testowy 1");
         undeadRepository.addUndead(zombie);
-        assertNotNull(undeadRepository.getById(1));
+        assertNotNull(undeadRepository.getById(170));
 
     }
 
     @Ignore
     @Test
-    public void deleteUndead() {
+    public void deleteUndead() throws SQLException{
         Undead zombie = undeadRepository.getById(1);
         undeadRepository.deleteUndead(zombie);
 
@@ -49,24 +51,21 @@ public class UndeadTest {
         }
     }
 
-    @Ignore
     @Test
-    public void updateUndead() {
+    public void updateUndead() throws SQLException{
         Undead clicker = new Undead();
-        clicker.setId(1);
         clicker.setType("Clicker");
-        int zombieToUpdate = 1;
+        int zombieToUpdate = 170;
         undeadRepository.updateUndead(zombieToUpdate, clicker);
         assertEquals(undeadRepository.getById(zombieToUpdate).getType(), clicker.getType());
 
-        for (Undead undead : undeadRepository.getAll()) {
-            if (clicker.getId() == zombieToUpdate) {
-                assertNotEquals(undead.getType(), clicker.getType());
-            }
-        }
+//        for (Undead undead : undeadRepository.getAll()) {
+//            if (clicker.getId() == zombieToUpdate) {
+//                assertNotEquals(undead.getType(), clicker.getType());
+//            }
+//        }
     }
 
-    @Ignore
     @Test
     public void getAll() {
         assertNotNull(undeadRepository.getAll());
@@ -93,4 +92,13 @@ public class UndeadTest {
         undeadRepository.addUndead(ghoul);
         undeadRepository.addUndead(voodoo);
     }
+
+//    @After
+//    public void dropTable() throws SQLException {
+//        undeadRepository.dropDatatable();
+//        //   assertEquals(null, undeadRepository.getAll());
+//    }
+
+
+
 }

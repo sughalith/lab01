@@ -4,6 +4,12 @@ public class Undead {
     private int id;
     private String type;
 
+    public Undead(int id, String type) {
+    }
+    public Undead(){
+
+    }
+
     public int getId() {
         return id;
     }
