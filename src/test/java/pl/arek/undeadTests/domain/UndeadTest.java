@@ -37,7 +37,7 @@ public class UndeadTest {
         assertNotNull(undeadRepository.getById(undeadRepository.getAll().size()-1));
 
     }
-    
+
     @Test
     public void deleteUndead() throws SQLException{
         Undead zombie = undeadRepository.getById(1);
@@ -92,11 +92,10 @@ public class UndeadTest {
         undeadRepository.addUndead(voodoo);
     }
 
-//    @After
-//    public void dropTable() throws SQLException {
-//        undeadRepository.dropDatatable();
-//        //   assertEquals(null, undeadRepository.getAll());
-//    }
+    @After
+    public void dropTable() throws SQLException {
+        undeadRepository.dropDatatable();
+    }
 
 
 

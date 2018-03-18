@@ -71,11 +71,6 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     }
 
     @Override
-    public void initDatabase() {
-
-    }
-
-    @Override
     public Undead getById(int id) throws SQLException{
         getByIdStmt.setInt(1, id);
         ResultSet rs = getByIdStmt.executeQuery();
@@ -140,7 +135,7 @@ public class UndeadRepositoryImpl implements UndeadRepository{
         addUndeadStmt = connection.prepareStatement("INSERT INTO Undead (name) VALUES (?)");
         getAllStmt = connection.prepareStatement("SELECT * FROM Undead");
         getByIdStmt = connection.prepareStatement("SELECT * FROM Undead WHERE id = ?");
-        deleteTableStmt = connection.prepareStatement("DELETE FROM Undead");
+        deleteTableStmt = connection.prepareStatement("DROP TABLE Undead");
         updateStmt = connection.prepareStatement("UPDATE Undead SET name = ? WHERE id = ?");
         deleteByIdStmt = connection.prepareStatement("DELETE FROM Undead WHERE id = ?");
     }

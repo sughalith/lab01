@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface UndeadRepository {
     public List<Undead> getAll();
-    public void initDatabase();
     public Undead getById(int id) throws SQLException;
     public void addUndead(Undead undead);
     public void deleteUndead(Undead undead) throws SQLException;
