@@ -17,6 +17,7 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     private PreparedStatement getByIdStmt;
     private PreparedStatement deleteTableStmt;
     private PreparedStatement updateStmt;
+    private PreparedStatement deleteByIdStmt;
 
 
     public UndeadRepositoryImpl(Connection connection) throws SQLException{
@@ -107,7 +108,10 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     }
 
     @Override
-    public void deleteUndead(Undead undead) {
+    public void deleteUndead(Undead undead) throws SQLException{
+
+        deleteByIdStmt.setInt(1, undead.getId());
+        deleteByIdStmt.executeUpdate();
 
     }
 
@@ -138,5 +142,6 @@ public class UndeadRepositoryImpl implements UndeadRepository{
         getByIdStmt = connection.prepareStatement("SELECT * FROM Undead WHERE id = ?");
         deleteTableStmt = connection.prepareStatement("DELETE FROM Undead");
         updateStmt = connection.prepareStatement("UPDATE Undead SET name = ? WHERE id = ?");
+        deleteByIdStmt = connection.prepareStatement("DELETE FROM Undead WHERE id = ?");
     }
 }

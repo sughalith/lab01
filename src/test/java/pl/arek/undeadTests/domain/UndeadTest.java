@@ -25,7 +25,7 @@ public class UndeadTest {
 
     @Test
     public void getById() throws SQLException{
-        int idToFind = 170;
+        int idToFind = undeadRepository.getAll().size()-1;
         assertNotNull(undeadRepository.getById(idToFind));
     }
 
@@ -34,11 +34,10 @@ public class UndeadTest {
         Undead zombie = new Undead();
         zombie.setType("Testowy 1");
         undeadRepository.addUndead(zombie);
-        assertNotNull(undeadRepository.getById(170));
+        assertNotNull(undeadRepository.getById(undeadRepository.getAll().size()-1));
 
     }
-
-    @Ignore
+    
     @Test
     public void deleteUndead() throws SQLException{
         Undead zombie = undeadRepository.getById(1);
@@ -55,15 +54,15 @@ public class UndeadTest {
     public void updateUndead() throws SQLException{
         Undead clicker = new Undead();
         clicker.setType("Clicker");
-        int zombieToUpdate = 170;
+        int zombieToUpdate = undeadRepository.getAll().size()-1;
         undeadRepository.updateUndead(zombieToUpdate, clicker);
         assertEquals(undeadRepository.getById(zombieToUpdate).getType(), clicker.getType());
 
-//        for (Undead undead : undeadRepository.getAll()) {
-//            if (clicker.getId() == zombieToUpdate) {
-//                assertNotEquals(undead.getType(), clicker.getType());
-//            }
-//        }
+        for (Undead undead : undeadRepository.getAll()) {
+            if (clicker.getId() == zombieToUpdate) {
+                assertNotEquals(undead.getType(), clicker.getType());
+            }
+        }
     }
 
     @Test
