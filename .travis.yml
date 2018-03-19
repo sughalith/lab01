@@ -1,4 +1,5 @@
 language: java
-script:
+before_script:
 - cd scripts; ./server.sh
+script:
 - cd ..; mvn test
