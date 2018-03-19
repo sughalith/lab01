@@ -1,5 +1,6 @@
 language: java
 before_script:
-- cd scripts; ./server.sh
+- cd scripts; ./server.sh &
+- sleep 1
 script:
 - cd ..; mvn test
