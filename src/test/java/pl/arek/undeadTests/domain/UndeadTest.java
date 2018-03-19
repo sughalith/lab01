@@ -47,13 +47,18 @@ public class UndeadTest {
     public void updateUndead() throws SQLException{
         Undead clicker = new Undead();
         clicker.setType("Clicker");
-        int zombieToUpdate = undeadRepository.getAll().size()-1;
+        int zombieToUpdate = undeadRepository.getAll().size()-2;
         undeadRepository.updateUndead(zombieToUpdate, clicker);
         assertEquals(undeadRepository.getById(zombieToUpdate).getType(), clicker.getType());
 
         for (Undead undead : undeadRepository.getAll()) {
-            if (clicker.getId() == zombieToUpdate) {
-                assertNotEquals(undead.getType(), clicker.getType());
+            if (clicker.getType().equals(undeadRepository.getById(zombieToUpdate).getType())) {
+                if(zombieToUpdate == undead.getId()){
+                    assertEquals(undeadRepository.getById(zombieToUpdate).getType(), undead.getType());
+                }
+                else {
+                    assertNotEquals(zombieToUpdate, undead.getId());
+                }
             }
         }
     }
