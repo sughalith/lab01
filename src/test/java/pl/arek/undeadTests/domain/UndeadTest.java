@@ -16,13 +16,6 @@ public class UndeadTest {
 
     UndeadRepository undeadRepository;
 
-    @Ignore
-    @Test
-    public void isZombie() {
-        Undead zombie = new Undead();
-        assertNotNull(zombie);
-    }
-
     @Test
     public void getById() throws SQLException{
         int idToFind = undeadRepository.getAll().size()-1;
