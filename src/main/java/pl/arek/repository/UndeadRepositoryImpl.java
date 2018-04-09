@@ -19,6 +19,9 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     private PreparedStatement updateStmt;
     private PreparedStatement deleteByIdStmt;
 
+    public UndeadRepositoryImpl () throws SQLException{
+
+    }
 
     public UndeadRepositoryImpl(Connection connection) throws SQLException{
         this.connection = connection;
@@ -92,10 +95,10 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     }
 
     @Override
-    public void addUndead(Undead undead) {
+    public int addUndead(Undead undead) {
         try{
             addUndeadStmt.setString(1, undead.getType());
-            addUndeadStmt.executeUpdate();
+            return addUndeadStmt.executeUpdate();
         }
         catch (SQLException e){
             throw new IllegalStateException(e.getMessage() + "\n" + e.getStackTrace().toString());
@@ -103,19 +106,19 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     }
 
     @Override
-    public void deleteUndead(Undead undead) throws SQLException{
+    public int deleteUndead(Undead undead) throws SQLException{
 
         deleteByIdStmt.setInt(1, undead.getId());
-        deleteByIdStmt.executeUpdate();
+        return deleteByIdStmt.executeUpdate();
 
     }
 
     @Override
-    public void updateUndead(int oldId, Undead newUndead) throws SQLException{
+    public int updateUndead(int oldId, Undead newUndead) throws SQLException{
 
         updateStmt.setInt(2, oldId);
         updateStmt.setString(1, newUndead.getType());
-        updateStmt.executeUpdate();
+        return updateStmt.executeUpdate();
 
     }
     @Override
