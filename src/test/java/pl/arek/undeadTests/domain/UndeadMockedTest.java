@@ -122,12 +122,4 @@ public class UndeadMockedTest {
         verify(connectionMock).prepareStatement("DROP TABLE Undead");
 
     }
-
-    @Ignore
-    @After
-    public void dropTable() throws SQLException {
-        undeadRepository.dropDatatable();
-    }
-
-
 }
