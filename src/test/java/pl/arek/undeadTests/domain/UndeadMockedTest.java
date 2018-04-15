@@ -6,6 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import pl.arek.domain.Undead;
 import pl.arek.repository.UndeadRepository;
@@ -81,21 +82,7 @@ public class UndeadMockedTest {
     @Ignore
     @Test
     public void updateUndead() throws SQLException {
-        Undead clicker = new Undead();
-        clicker.setType("Clicker");
-        int zombieToUpdate = undeadRepository.getAll().size() - 2;
-        undeadRepository.updateUndead(zombieToUpdate, clicker);
-        assertEquals(undeadRepository.getById(zombieToUpdate).getType(), clicker.getType());
 
-        for (Undead undead : undeadRepository.getAll()) {
-            if (clicker.getType().equals(undeadRepository.getById(zombieToUpdate).getType())) {
-                if (zombieToUpdate == undead.getId()) {
-                    assertEquals(undeadRepository.getById(zombieToUpdate).getType(), undead.getType());
-                } else {
-                    assertNotEquals(zombieToUpdate, undead.getId());
-                }
-            }
-        }
     }
 
     @Ignore
@@ -103,6 +90,41 @@ public class UndeadMockedTest {
     public void getAll() {
         assertNotNull(undeadRepository.getAll());
     }
+
+    abstract class AbstractResultSet implements ResultSet {
+        int i = 0;
+
+        @Override
+        public boolean next() throws SQLException {
+            if (i == 1)
+                return false;
+            i++;
+            return true;
+        }
+
+        @Override
+        public int getInt(String s) throws SQLException {
+            return 1;
+        }
+
+        @Override
+        public String getString(String columnLabel) throws SQLException {
+            return "clicker";
+        }
+    }
+
+    @Test
+    public void checkGetting() throws Exception {
+        when(connectionMock.prepareStatement("SELECT * FROM Undead")).thenReturn(getAllUndeadsStmt);
+        AbstractResultSet mockedResultSet = mock(AbstractResultSet.class, Mockito.CALLS_REAL_METHODS);
+        when(mockedResultSet.next()).thenCallRealMethod();
+        when(mockedResultSet.getInt("id")).thenCallRealMethod();
+        when(mockedResultSet.getString("type")).thenCallRealMethod();
+        when(getAllUndeadsStmt.executeQuery()).thenReturn(mockedResultSet);
+
+        assertEquals(1, undeadRepository.getAll().size());
+    }
+
 
     @Before
     public void initRepository() throws SQLException {
