@@ -47,6 +47,7 @@ public class UndeadTest {
         }
     }
 
+    @Ignore
     @Test
     public void updateUndead() throws SQLException{
         Undead clicker = new Undead();
