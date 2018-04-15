@@ -14,6 +14,7 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
+@Ignore
 @RunWith(JUnit4.class)
 public class UndeadTest {
 

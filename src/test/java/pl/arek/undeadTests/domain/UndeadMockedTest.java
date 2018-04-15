@@ -154,7 +154,7 @@ public class UndeadMockedTest {
             return true;
         }
     }
-    
+
     @Ignore
     @Test
     public void updateUndead() throws SQLException {
