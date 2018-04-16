@@ -18,16 +18,23 @@ public class UndeadRepositoryImpl implements UndeadRepository{
     private PreparedStatement updateStmt;
     private PreparedStatement deleteByIdStmt;
 
-    public UndeadRepositoryImpl () throws SQLException{
+
+
+    public UndeadRepositoryImpl(Connection connection) throws SQLException {
+        this.connection = connection;
+        if(!isDatabaseReady()){
+            createTables();
+        }
+        this.setConnection(this.connection);
 
     }
-
-    public UndeadRepositoryImpl(Connection connection) throws SQLException{
-        this.connection = connection;
+    public UndeadRepositoryImpl() throws SQLException{
+        this.connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/workdb");
         if (!isDatabaseReady()) {
             createTables();
         }
-        setConnection(connection);
+        this.setConnection(this.connection);
+
     }
 
     public void createTables() throws SQLException {
@@ -142,20 +149,6 @@ public class UndeadRepositoryImpl implements UndeadRepository{
         deleteByIdStmt = connection.prepareStatement("DELETE FROM Undead WHERE id = ?");
     }
 
-    public void UndeadRepositoryImpl(Connection connection) throws SQLException {
-        this.connection = connection;
-        if(!isDatabaseReady()){
-            createTables();
-        }
-        this.setConnection(this.connection);
 
-    }
-    public void UndeadRepositoryImpl() throws SQLException{
-        this.connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/workdb");
-        if (!isDatabaseReady()) {
-            createTables();
-        }
-        this.setConnection(this.connection);
 
-    }
 }
