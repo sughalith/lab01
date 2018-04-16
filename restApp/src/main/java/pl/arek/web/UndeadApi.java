@@ -23,14 +23,15 @@ public class UndeadApi {
         return "This is non rest, just checking if everything works";
     }
 
-    @RequestMapping(value = "/undead/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/GET/undead/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Undead getUndead(@PathVariable("id") int id) throws SQLException{
         return undeadRepository.getById(id);
     }
 
-    @RequestMapping(value = "/undeads", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Undead> getUndeads(@RequestParam("filter") String f) throws SQLException{
+    @RequestMapping(value = "/GET/undeads", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Undead> getUndeads(@RequestParam(value = "filter",required = false) String f) throws SQLException{
+        if(f != null){
         List<Undead> undeads = new LinkedList<Undead>();
         for(Undead u : undeadRepository.getAll()){
             if (u.getType().contains(f)){
@@ -38,20 +39,19 @@ public class UndeadApi {
             }
         }
         return undeads;
+        }
+        else {
+            return undeadRepository.getAll();
+
+        }
     }
 
-    @RequestMapping(value = "/allUndead", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Undead> getUndeads() throws SQLException{
-
-        return undeadRepository.getAll();
-    }
-
-    @RequestMapping(value = "/undead", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/POST/undead", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Long addUndead(@RequestBody Undead u){
         return new Long(undeadRepository.addUndead(u));
     }
 
-    @RequestMapping(value = "/undeaddel/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/DELETE/undead/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Long deleteUndead(@PathVariable("id") int id) throws SQLException{
         Undead undeadToDel = new Undead();
         undeadToDel.setId(id);
