@@ -45,7 +45,7 @@ public class UndeadApi {
         return new Long(undeadRepository.addUndead(u));
     }
 
-    @RequestMapping(value = "/undead", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/undeaddel", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Long deleteUndead(@PathVariable("id") int id) throws SQLException{
         return new Long(undeadRepository.deleteUndead(undeadRepository.getById(id)));
     }
