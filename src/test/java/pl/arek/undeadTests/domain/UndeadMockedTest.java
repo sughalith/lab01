@@ -155,20 +155,21 @@ public class UndeadMockedTest {
         }
     }
 
-    @Ignore
     @Test
     public void updateUndead() throws SQLException {
 
-        Undead undead = new Undead();
-        undead.setId(1);
-        undead.setType("wariat");
-        undeadRepository.addUndead(undead);
-        Undead undeadToUpdate = undeadRepository.getById(undead.getId());
-        undeadToUpdate.setType("clicker");
-        undeadRepository.updateUndead(1, undeadToUpdate);
 
-        assertEquals(undeadRepository.getById(undead.getId()).getType(), undeadToUpdate.getType());
-        verify(updateUndeadStmt, times(1)).setString(1, "clicker");
+        when(updateUndeadStmt.executeUpdate()).thenReturn(1);
+        Undead undead = new Undead();
+
+        undead.setId(1);
+        undead.setType("clicker");
+
+        Undead updatedUndead = new Undead();
+        updatedUndead.setId(undead.getId());
+        updatedUndead.setType("zombie");
+
+        assertEquals(1, undeadRepository.updateUndead(undead.getId(), updatedUndead));
         verify(updateUndeadStmt).executeUpdate();
 
 
