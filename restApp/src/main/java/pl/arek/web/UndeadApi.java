@@ -40,13 +40,21 @@ public class UndeadApi {
         return undeads;
     }
 
+    @RequestMapping(value = "/allUndead", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Undead> getUndeads() throws SQLException{
+
+        return undeadRepository.getAll();
+    }
+
     @RequestMapping(value = "/undead", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Long addUndead(@RequestBody Undead u){
         return new Long(undeadRepository.addUndead(u));
     }
 
-    @RequestMapping(value = "/undeaddel", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/undeaddel/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Long deleteUndead(@PathVariable("id") int id) throws SQLException{
-        return new Long(undeadRepository.deleteUndead(undeadRepository.getById(id)));
+        Undead undeadToDel = new Undead();
+        undeadToDel.setId(id);
+        return new Long(undeadRepository.deleteUndead(undeadToDel));
     }
 }
